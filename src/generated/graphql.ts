@@ -1,0 +1,162 @@
+import client from "src/apollo-client";
+import type {
+        ApolloQueryResult, ObservableQuery, WatchQueryOptions, MutationOptions
+      } from "@apollo/client";
+import { readable } from "svelte/store";
+import type { Readable } from "svelte/store";
+import gql from "graphql-tag"
+export type Maybe<T> = T | null;
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+/** All built-in and custom scalars, mapped to their actual values */
+export type Scalars = {
+  ID: string;
+  String: string;
+  Boolean: boolean;
+  Int: number;
+  Float: number;
+  /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
+  DateTime: any;
+};
+
+export type App = {
+  __typename?: 'App';
+  _id: Scalars['String'];
+  createdAt: Scalars['DateTime'];
+  project: Project;
+  type: AppType;
+  updatedAt: Scalars['DateTime'];
+};
+
+export enum AppType {
+  Android = 'ANDROID',
+  Ios = 'IOS',
+  Other = 'OTHER',
+  Web = 'WEB'
+}
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  createApp: App;
+  createProject: Project;
+};
+
+
+export type MutationCreateAppArgs = {
+  projectId: Scalars['String'];
+  type: AppType;
+};
+
+
+export type MutationCreateProjectArgs = {
+  name: Scalars['String'];
+};
+
+export type Project = {
+  __typename?: 'Project';
+  _id: Scalars['String'];
+  app: Array<App>;
+  createdAt: Scalars['DateTime'];
+  name: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type Query = {
+  __typename?: 'Query';
+  app: App;
+  project: Project;
+  projects: Array<Project>;
+};
+
+
+export type QueryAppArgs = {
+  id: Scalars['String'];
+};
+
+
+export type QueryProjectArgs = {
+  id: Scalars['String'];
+};
+
+export type ProjectQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ProjectQuery = { __typename?: 'Query', projects: Array<{ __typename?: 'Project', _id: string, name: string, app: Array<{ __typename?: 'App', type: AppType }> }> };
+
+export type CreateProjectMutationVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type CreateProjectMutation = { __typename?: 'Mutation', createProject: { __typename?: 'Project', name: string, app: Array<{ __typename?: 'App', type: AppType }> } };
+
+
+export const ProjectDoc = gql`
+    query Project {
+  projects {
+    _id
+    name
+    app {
+      type
+    }
+  }
+}
+    `;
+export const CreateProjectDoc = gql`
+    mutation CreateProject($name: String!) {
+  createProject(name: $name) {
+    name
+    app {
+      type
+    }
+  }
+}
+    `;
+export const Project = (
+            options: Omit<
+              WatchQueryOptions<ProjectQueryVariables>, 
+              "query"
+            >
+          ): Readable<
+            ApolloQueryResult<ProjectQuery> & {
+              query: ObservableQuery<
+                ProjectQuery,
+                ProjectQueryVariables
+              >;
+            }
+          > => {
+            const q = client.watchQuery({
+              query: ProjectDoc,
+              ...options,
+            });
+            var result = readable<
+              ApolloQueryResult<ProjectQuery> & {
+                query: ObservableQuery<
+                  ProjectQuery,
+                  ProjectQueryVariables
+                >;
+              }
+            >(
+              { data: {} as any, loading: true, error: undefined, networkStatus: 1, query: q },
+              (set) => {
+                q.subscribe((v: any) => {
+                  set({ ...v, query: q });
+                });
+              }
+            );
+            return result;
+          }
+        
+export const CreateProject = (
+            options: Omit<
+              MutationOptions<any, CreateProjectMutationVariables>, 
+              "mutation"
+            >
+          ) => {
+            const m = client.mutate<CreateProjectMutation, CreateProjectMutationVariables>({
+              mutation: CreateProjectDoc,
+              ...options,
+            });
+            return m;
+          }

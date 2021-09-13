@@ -1,0 +1,18 @@
+query Project {
+  projects {
+    _id
+    name
+    app {
+      type
+    }
+  }
+}
+
+mutation CreateProject($name: String!) {
+  createProject(name: $name) {
+    name
+    app {
+      type
+    }
+  }
+}

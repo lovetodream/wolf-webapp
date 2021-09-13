@@ -18,7 +18,7 @@ const httpLink = new HttpLink({
   uri: 'http://localhost:3333/graphql'
 })
 
-const link = ApolloLink.split((op: any) => {
+const link = ApolloLink.split((op) => {
   const operationAST = getOperationAST(op.query, op.operationName)
   return !!operationAST && operationAST.operation === 'subscription'
 }, wsLink, httpLink)

@@ -1,18 +1,19 @@
-import { ApolloClient, ApolloLink, HttpLink, InMemoryCache } from '@apollo/client';
-import { WebSocketLink } from '@apollo/client/link/ws'
+import { ApolloClient, ApolloLink, HttpLink, InMemoryCache } from '@apollo/client/core';
 import { getOperationAST } from 'graphql';
 
 const cache = new InMemoryCache({
   addTypename: true
 })
 
-const wsLink = new WebSocketLink({
-  uri: 'wss://localhost:3333/graphql',
-  options: {
-    lazy: true,
-    reconnect: true
-  }
-})
+// Leave websocket connection out for now
+// const wsLink = new WebSocketLink({
+//   uri: 'wss://localhost:3333/graphql',
+//   options: {
+//     lazy: true,
+//     reconnect: true
+//   },
+//   webSocketImpl: ws
+// })
 
 const httpLink = new HttpLink({
   uri: 'http://localhost:3333/graphql'
@@ -21,7 +22,7 @@ const httpLink = new HttpLink({
 const link = ApolloLink.split((op) => {
   const operationAST = getOperationAST(op.query, op.operationName)
   return !!operationAST && operationAST.operation === 'subscription'
-}, wsLink, httpLink)
+}, httpLink, httpLink)
 
 export default new ApolloClient({
   cache,

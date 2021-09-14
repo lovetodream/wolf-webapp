@@ -1,7 +1,7 @@
-import client from "src/apollo-client";
+import client from "@/apollo-client";
 import type {
         ApolloQueryResult, ObservableQuery, WatchQueryOptions, MutationOptions
-      } from "@apollo/client";
+      } from "@apollo/client/core";
 import { readable } from "svelte/store";
 import type { Readable } from "svelte/store";
 import gql from "graphql-tag"
@@ -79,10 +79,10 @@ export type QueryProjectArgs = {
   id: Scalars['String'];
 };
 
-export type ProjectQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetProjectsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ProjectQuery = { __typename?: 'Query', projects: Array<{ __typename?: 'Project', _id: string, name: string, app: Array<{ __typename?: 'App', type: AppType }> }> };
+export type GetProjectsQuery = { __typename?: 'Query', projects: Array<{ __typename?: 'Project', _id: string, name: string, app: Array<{ __typename?: 'App', type: AppType }> }> };
 
 export type CreateProjectMutationVariables = Exact<{
   name: Scalars['String'];
@@ -92,8 +92,8 @@ export type CreateProjectMutationVariables = Exact<{
 export type CreateProjectMutation = { __typename?: 'Mutation', createProject: { __typename?: 'Project', name: string, app: Array<{ __typename?: 'App', type: AppType }> } };
 
 
-export const ProjectDoc = gql`
-    query Project {
+export const GetProjectsDoc = gql`
+    query GetProjects {
   projects {
     _id
     name
@@ -113,28 +113,28 @@ export const CreateProjectDoc = gql`
   }
 }
     `;
-export const Project = (
+export const GetProjects = (
             options: Omit<
-              WatchQueryOptions<ProjectQueryVariables>, 
+              WatchQueryOptions<GetProjectsQueryVariables>, 
               "query"
             >
           ): Readable<
-            ApolloQueryResult<ProjectQuery> & {
+            ApolloQueryResult<GetProjectsQuery> & {
               query: ObservableQuery<
-                ProjectQuery,
-                ProjectQueryVariables
+                GetProjectsQuery,
+                GetProjectsQueryVariables
               >;
             }
           > => {
             const q = client.watchQuery({
-              query: ProjectDoc,
+              query: GetProjectsDoc,
               ...options,
             });
             var result = readable<
-              ApolloQueryResult<ProjectQuery> & {
+              ApolloQueryResult<GetProjectsQuery> & {
                 query: ObservableQuery<
-                  ProjectQuery,
-                  ProjectQueryVariables
+                  GetProjectsQuery,
+                  GetProjectsQueryVariables
                 >;
               }
             >(

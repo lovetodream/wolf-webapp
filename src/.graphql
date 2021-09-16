@@ -8,6 +8,16 @@ query GetProjects {
   }
 }
 
+query GetSingleProject($id: String!) {
+  project(id: $id) {
+    _id
+    name
+    app {
+      type
+    }
+  }
+}
+
 mutation CreateProject($name: String!) {
   createProject(name: $name) {
     name

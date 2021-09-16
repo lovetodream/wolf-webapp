@@ -84,6 +84,13 @@ export type GetProjectsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetProjectsQuery = { __typename?: 'Query', projects: Array<{ __typename?: 'Project', _id: string, name: string, app: Array<{ __typename?: 'App', type: AppType }> }> };
 
+export type GetSingleProjectQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type GetSingleProjectQuery = { __typename?: 'Query', project: { __typename?: 'Project', _id: string, name: string, app: Array<{ __typename?: 'App', type: AppType }> } };
+
 export type CreateProjectMutationVariables = Exact<{
   name: Scalars['String'];
 }>;
@@ -95,6 +102,17 @@ export type CreateProjectMutation = { __typename?: 'Mutation', createProject: { 
 export const GetProjectsDoc = gql`
     query GetProjects {
   projects {
+    _id
+    name
+    app {
+      type
+    }
+  }
+}
+    `;
+export const GetSingleProjectDoc = gql`
+    query GetSingleProject($id: String!) {
+  project(id: $id) {
     _id
     name
     app {
@@ -135,6 +153,41 @@ export const GetProjects = (
                 query: ObservableQuery<
                   GetProjectsQuery,
                   GetProjectsQueryVariables
+                >;
+              }
+            >(
+              { data: {} as any, loading: true, error: undefined, networkStatus: 1, query: q },
+              (set) => {
+                q.subscribe((v: any) => {
+                  set({ ...v, query: q });
+                });
+              }
+            );
+            return result;
+          }
+        
+export const GetSingleProject = (
+            options: Omit<
+              WatchQueryOptions<GetSingleProjectQueryVariables>, 
+              "query"
+            >
+          ): Readable<
+            ApolloQueryResult<GetSingleProjectQuery> & {
+              query: ObservableQuery<
+                GetSingleProjectQuery,
+                GetSingleProjectQueryVariables
+              >;
+            }
+          > => {
+            const q = client.watchQuery({
+              query: GetSingleProjectDoc,
+              ...options,
+            });
+            var result = readable<
+              ApolloQueryResult<GetSingleProjectQuery> & {
+                query: ObservableQuery<
+                  GetSingleProjectQuery,
+                  GetSingleProjectQueryVariables
                 >;
               }
             >(

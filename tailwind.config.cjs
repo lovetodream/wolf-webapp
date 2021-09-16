@@ -1,12 +1,20 @@
+const colors = require('tailwindcss/colors');
+
 const config = {
 	mode: "jit",
 	purge: [
 		"./src/**/*.{html,js,svelte,ts}",
 	],
 	theme: {
-		extend: {},
+		extend: {
+			colors: {
+				rose: colors.rose
+			}
+		},
 	},
-	plugins: [],
+	plugins: [
+		require('@tailwindcss/forms'),
+	],
 };
 
 module.exports = config;

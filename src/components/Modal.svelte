@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import { onDestroy } from 'svelte'
-import { fade } from 'svelte/transition';
+import Transition from 'svelte-class-transition'
 
 let topDiv
 let visible = false
@@ -68,15 +68,21 @@ onDestroy(() => {
 
 <svelte:window on:keydown="{keyPress}" />
 
-<div id="modal-wrapper" class="fixed z-50 inset-0 overflow-y-auto { visible ? 'visible' : 'invisible' }" transition:fade bind:this={ topDiv } aria-labelledby="modal-title" role="dialog" aria-modal="true">
-  <div id="modal" class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-    
-    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" on:click="{ () => close() }" />
+<Transition toggle={ visible }>
+  <div id="modal-wrapper" class="fixed z-50 inset-0 overflow-y-auto" bind:this={ topDiv } aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div id="modal" class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <Transition toggle={ visible } inTransition="ease-out duration-300" outTransition="ease-in duration-200" inState="opacity-0" onState="opacity-100" outState="opacity-0">
+        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" on:click="{ () => close() }" />
+      </Transition>
 
-    <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+      <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
 
-    <div class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
-      <slot></slot>
+      <Transition toggle={ visible } inTransition="ease-out duration-300" outTransition="ease-in duration-200" inState="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" onState="opacity-100 translate-y-0 sm:scale-100" outState="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+        <div class="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+          <slot></slot>
+        </div>
+      </Transition>
     </div>
   </div>
-</div>
+</Transition>
+    

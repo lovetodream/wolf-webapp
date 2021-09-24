@@ -12,7 +12,15 @@ query GetSingleProject($id: String!) {
   project(id: $id) {
     _id
     name
+    bio
+    alias
+    description
+    url
+    avatar
+    createdAt
     app {
+      _id
+      name
       type
     }
   }
@@ -24,5 +32,50 @@ mutation CreateProject($name: String!) {
     app {
       type
     }
+  }
+}
+
+mutation ArchiveProject($id: String!) {
+  archiveProject(id: $id) {
+    name
+  }
+}
+
+mutation DeleteProject($id: String!) {
+  deleteProject(id: $id) {
+    acknowledged
+    deletedCount
+  }
+}
+
+mutation DeleteApp($projectId: String!, $appId: String!) {
+  deleteApp(projectId: $projectId, appId: $appId) {
+    acknowledged
+    deletedCount
+  }
+}
+
+mutation UpdateGeneralProjectInfo($id: String!, $name: String!, $bio: String, $alias: String, $description: String, $url: String) {
+  updateGeneralProjectInfo(
+    id: $id
+    name: $name
+    bio: $bio
+    alias: $alias
+    description: $description
+    url: $url
+  ) {
+    name
+  }
+}
+
+mutation UpdateProjectAvatar($id: String!, $avatar: String!) {
+  updateProjectAvatar(id: $id, avatar: $avatar) {
+    name
+  }
+}
+
+mutation ResetProjectAvatar($id: String!) {
+  resetProjectAvatar(id: $id) {
+    name
   }
 }

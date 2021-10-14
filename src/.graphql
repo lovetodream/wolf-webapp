@@ -1,4 +1,4 @@
-query GetProjects {
+query gqlGetProjects {
   projects {
     _id
     name
@@ -8,7 +8,7 @@ query GetProjects {
   }
 }
 
-query GetSingleProject($id: String!) {
+query gqlGetSingleProject($id: String!) {
   project(id: $id) {
     _id
     name
@@ -26,7 +26,7 @@ query GetSingleProject($id: String!) {
   }
 }
 
-mutation CreateProject($name: String!) {
+mutation gqlCreateProject($name: String!) {
   createProject(name: $name) {
     name
     app {
@@ -35,27 +35,27 @@ mutation CreateProject($name: String!) {
   }
 }
 
-mutation ArchiveProject($id: String!) {
+mutation gqlArchiveProject($id: String!) {
   archiveProject(id: $id) {
     name
   }
 }
 
-mutation DeleteProject($id: String!) {
+mutation gqlDeleteProject($id: String!) {
   deleteProject(id: $id) {
     acknowledged
     deletedCount
   }
 }
 
-mutation DeleteApp($projectId: String!, $appId: String!) {
+mutation gqlDeleteApp($projectId: String!, $appId: String!) {
   deleteApp(projectId: $projectId, appId: $appId) {
     acknowledged
     deletedCount
   }
 }
 
-mutation UpdateGeneralProjectInfo($id: String!, $name: String!, $bio: String, $alias: String, $description: String, $url: String) {
+mutation gqlUpdateGeneralProjectInfo($id: String!, $name: String!, $bio: String, $alias: String, $description: String, $url: String) {
   updateGeneralProjectInfo(
     id: $id
     name: $name
@@ -68,13 +68,13 @@ mutation UpdateGeneralProjectInfo($id: String!, $name: String!, $bio: String, $a
   }
 }
 
-mutation UpdateProjectAvatar($id: String!, $avatar: String!) {
+mutation gqlUpdateProjectAvatar($id: String!, $avatar: String!) {
   updateProjectAvatar(id: $id, avatar: $avatar) {
     name
   }
 }
 
-mutation ResetProjectAvatar($id: String!) {
+mutation gqlResetProjectAvatar($id: String!) {
   resetProjectAvatar(id: $id) {
     name
   }

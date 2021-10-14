@@ -53,6 +53,7 @@ export type Mutation = {
   resetProjectAvatar: Project;
   updateGeneralProjectInfo: Project;
   updateProjectAvatar: Project;
+  updateProjectSecuritySettings: Project;
 };
 
 
@@ -103,6 +104,14 @@ export type MutationUpdateProjectAvatarArgs = {
   id: Scalars['String'];
 };
 
+
+export type MutationUpdateProjectSecuritySettingsArgs = {
+  id: Scalars['String'];
+  pin?: Maybe<Scalars['Float']>;
+  recoveryEmail?: Maybe<Scalars['String']>;
+  strictMode: Scalars['Boolean'];
+};
+
 export type Project = {
   __typename?: 'Project';
   _id: Scalars['String'];
@@ -114,7 +123,10 @@ export type Project = {
   createdAt: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
   name: Scalars['String'];
+  pin: Scalars['Boolean'];
+  recoveryEmail?: Maybe<Scalars['String']>;
   softDeleted: Scalars['Boolean'];
+  strictMode: Scalars['Boolean'];
   updatedAt: Scalars['DateTime'];
   url?: Maybe<Scalars['String']>;
 };
@@ -136,48 +148,65 @@ export type QueryProjectArgs = {
   id: Scalars['String'];
 };
 
-export type GetProjectsQueryVariables = Exact<{ [key: string]: never; }>;
+export type GqlGetProjectsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetProjectsQuery = { __typename?: 'Query', projects: Array<{ __typename?: 'Project', _id: string, name: string, app: Array<{ __typename?: 'App', type: AppType }> }> };
+export type GqlGetProjectsQuery = { __typename?: 'Query', projects: Array<{ __typename?: 'Project', _id: string, name: string, app: Array<{ __typename?: 'App', type: AppType }> }> };
 
-export type GetSingleProjectQueryVariables = Exact<{
+export type GqlGetSingleProjectQueryVariables = Exact<{
   id: Scalars['String'];
 }>;
 
 
-export type GetSingleProjectQuery = { __typename?: 'Query', project: { __typename?: 'Project', _id: string, name: string, bio?: Maybe<string>, alias?: Maybe<string>, description?: Maybe<string>, url?: Maybe<string>, avatar?: Maybe<string>, createdAt: any, app: Array<{ __typename?: 'App', _id: string, name: string, type: AppType }> } };
+export type GqlGetSingleProjectQuery = { __typename?: 'Query', project: { __typename?: 'Project', _id: string, name: string, bio?: Maybe<string>, alias?: Maybe<string>, description?: Maybe<string>, url?: Maybe<string>, avatar?: Maybe<string>, createdAt: any, app: Array<{ __typename?: 'App', _id: string, name: string, type: AppType }> } };
 
-export type CreateProjectMutationVariables = Exact<{
+export type GqlGetProjectSecuritySettingsQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type GqlGetProjectSecuritySettingsQuery = { __typename?: 'Query', project: { __typename?: 'Project', strictMode: boolean, recoveryEmail?: Maybe<string>, pin: boolean } };
+
+export type GqlUpdateProjectSecuritySettingsMutationVariables = Exact<{
+  id: Scalars['String'];
+  strictMode: Scalars['Boolean'];
+  recoveryEmail?: Maybe<Scalars['String']>;
+  pin?: Maybe<Scalars['Float']>;
+}>;
+
+
+export type GqlUpdateProjectSecuritySettingsMutation = { __typename?: 'Mutation', updateProjectSecuritySettings: { __typename?: 'Project', name: string } };
+
+export type GqlCreateProjectMutationVariables = Exact<{
   name: Scalars['String'];
 }>;
 
 
-export type CreateProjectMutation = { __typename?: 'Mutation', createProject: { __typename?: 'Project', name: string, app: Array<{ __typename?: 'App', type: AppType }> } };
+export type GqlCreateProjectMutation = { __typename?: 'Mutation', createProject: { __typename?: 'Project', name: string, app: Array<{ __typename?: 'App', type: AppType }> } };
 
-export type ArchiveProjectMutationVariables = Exact<{
+export type GqlArchiveProjectMutationVariables = Exact<{
   id: Scalars['String'];
 }>;
 
 
-export type ArchiveProjectMutation = { __typename?: 'Mutation', archiveProject: { __typename?: 'Project', name: string } };
+export type GqlArchiveProjectMutation = { __typename?: 'Mutation', archiveProject: { __typename?: 'Project', name: string } };
 
-export type DeleteProjectMutationVariables = Exact<{
+export type GqlDeleteProjectMutationVariables = Exact<{
   id: Scalars['String'];
 }>;
 
 
-export type DeleteProjectMutation = { __typename?: 'Mutation', deleteProject: { __typename?: 'DeleteResult', acknowledged: boolean, deletedCount: number } };
+export type GqlDeleteProjectMutation = { __typename?: 'Mutation', deleteProject: { __typename?: 'DeleteResult', acknowledged: boolean, deletedCount: number } };
 
-export type DeleteAppMutationVariables = Exact<{
+export type GqlDeleteAppMutationVariables = Exact<{
   projectId: Scalars['String'];
   appId: Scalars['String'];
 }>;
 
 
-export type DeleteAppMutation = { __typename?: 'Mutation', deleteApp: { __typename?: 'DeleteResult', acknowledged: boolean, deletedCount: number } };
+export type GqlDeleteAppMutation = { __typename?: 'Mutation', deleteApp: { __typename?: 'DeleteResult', acknowledged: boolean, deletedCount: number } };
 
-export type UpdateGeneralProjectInfoMutationVariables = Exact<{
+export type GqlUpdateGeneralProjectInfoMutationVariables = Exact<{
   id: Scalars['String'];
   name: Scalars['String'];
   bio?: Maybe<Scalars['String']>;
@@ -187,26 +216,26 @@ export type UpdateGeneralProjectInfoMutationVariables = Exact<{
 }>;
 
 
-export type UpdateGeneralProjectInfoMutation = { __typename?: 'Mutation', updateGeneralProjectInfo: { __typename?: 'Project', name: string } };
+export type GqlUpdateGeneralProjectInfoMutation = { __typename?: 'Mutation', updateGeneralProjectInfo: { __typename?: 'Project', name: string } };
 
-export type UpdateProjectAvatarMutationVariables = Exact<{
+export type GqlUpdateProjectAvatarMutationVariables = Exact<{
   id: Scalars['String'];
   avatar: Scalars['String'];
 }>;
 
 
-export type UpdateProjectAvatarMutation = { __typename?: 'Mutation', updateProjectAvatar: { __typename?: 'Project', name: string } };
+export type GqlUpdateProjectAvatarMutation = { __typename?: 'Mutation', updateProjectAvatar: { __typename?: 'Project', name: string } };
 
-export type ResetProjectAvatarMutationVariables = Exact<{
+export type GqlResetProjectAvatarMutationVariables = Exact<{
   id: Scalars['String'];
 }>;
 
 
-export type ResetProjectAvatarMutation = { __typename?: 'Mutation', resetProjectAvatar: { __typename?: 'Project', name: string } };
+export type GqlResetProjectAvatarMutation = { __typename?: 'Mutation', resetProjectAvatar: { __typename?: 'Project', name: string } };
 
 
-export const GetProjectsDoc = gql`
-    query GetProjects {
+export const GqlGetProjectsDoc = gql`
+    query gqlGetProjects {
   projects {
     _id
     name
@@ -216,8 +245,8 @@ export const GetProjectsDoc = gql`
   }
 }
     `;
-export const GetSingleProjectDoc = gql`
-    query GetSingleProject($id: String!) {
+export const GqlGetSingleProjectDoc = gql`
+    query gqlGetSingleProject($id: String!) {
   project(id: $id) {
     _id
     name
@@ -235,8 +264,29 @@ export const GetSingleProjectDoc = gql`
   }
 }
     `;
-export const CreateProjectDoc = gql`
-    mutation CreateProject($name: String!) {
+export const GqlGetProjectSecuritySettingsDoc = gql`
+    query gqlGetProjectSecuritySettings($id: String!) {
+  project(id: $id) {
+    strictMode
+    recoveryEmail
+    pin
+  }
+}
+    `;
+export const GqlUpdateProjectSecuritySettingsDoc = gql`
+    mutation gqlUpdateProjectSecuritySettings($id: String!, $strictMode: Boolean!, $recoveryEmail: String, $pin: Float) {
+  updateProjectSecuritySettings(
+    id: $id
+    strictMode: $strictMode
+    recoveryEmail: $recoveryEmail
+    pin: $pin
+  ) {
+    name
+  }
+}
+    `;
+export const GqlCreateProjectDoc = gql`
+    mutation gqlCreateProject($name: String!) {
   createProject(name: $name) {
     name
     app {
@@ -245,31 +295,31 @@ export const CreateProjectDoc = gql`
   }
 }
     `;
-export const ArchiveProjectDoc = gql`
-    mutation ArchiveProject($id: String!) {
+export const GqlArchiveProjectDoc = gql`
+    mutation gqlArchiveProject($id: String!) {
   archiveProject(id: $id) {
     name
   }
 }
     `;
-export const DeleteProjectDoc = gql`
-    mutation DeleteProject($id: String!) {
+export const GqlDeleteProjectDoc = gql`
+    mutation gqlDeleteProject($id: String!) {
   deleteProject(id: $id) {
     acknowledged
     deletedCount
   }
 }
     `;
-export const DeleteAppDoc = gql`
-    mutation DeleteApp($projectId: String!, $appId: String!) {
+export const GqlDeleteAppDoc = gql`
+    mutation gqlDeleteApp($projectId: String!, $appId: String!) {
   deleteApp(projectId: $projectId, appId: $appId) {
     acknowledged
     deletedCount
   }
 }
     `;
-export const UpdateGeneralProjectInfoDoc = gql`
-    mutation UpdateGeneralProjectInfo($id: String!, $name: String!, $bio: String, $alias: String, $description: String, $url: String) {
+export const GqlUpdateGeneralProjectInfoDoc = gql`
+    mutation gqlUpdateGeneralProjectInfo($id: String!, $name: String!, $bio: String, $alias: String, $description: String, $url: String) {
   updateGeneralProjectInfo(
     id: $id
     name: $name
@@ -282,42 +332,42 @@ export const UpdateGeneralProjectInfoDoc = gql`
   }
 }
     `;
-export const UpdateProjectAvatarDoc = gql`
-    mutation UpdateProjectAvatar($id: String!, $avatar: String!) {
+export const GqlUpdateProjectAvatarDoc = gql`
+    mutation gqlUpdateProjectAvatar($id: String!, $avatar: String!) {
   updateProjectAvatar(id: $id, avatar: $avatar) {
     name
   }
 }
     `;
-export const ResetProjectAvatarDoc = gql`
-    mutation ResetProjectAvatar($id: String!) {
+export const GqlResetProjectAvatarDoc = gql`
+    mutation gqlResetProjectAvatar($id: String!) {
   resetProjectAvatar(id: $id) {
     name
   }
 }
     `;
-export const GetProjects = (
+export const gqlGetProjects = (
             options: Omit<
-              WatchQueryOptions<GetProjectsQueryVariables>, 
+              WatchQueryOptions<GqlGetProjectsQueryVariables>, 
               "query"
             >
           ): Readable<
-            ApolloQueryResult<GetProjectsQuery> & {
+            ApolloQueryResult<GqlGetProjectsQuery> & {
               query: ObservableQuery<
-                GetProjectsQuery,
-                GetProjectsQueryVariables
+                GqlGetProjectsQuery,
+                GqlGetProjectsQueryVariables
               >;
             }
           > => {
             const q = client.watchQuery({
-              query: GetProjectsDoc,
+              query: GqlGetProjectsDoc,
               ...options,
             });
             var result = readable<
-              ApolloQueryResult<GetProjectsQuery> & {
+              ApolloQueryResult<GqlGetProjectsQuery> & {
                 query: ObservableQuery<
-                  GetProjectsQuery,
-                  GetProjectsQueryVariables
+                  GqlGetProjectsQuery,
+                  GqlGetProjectsQueryVariables
                 >;
               }
             >(
@@ -331,28 +381,28 @@ export const GetProjects = (
             return result;
           }
         
-export const GetSingleProject = (
+export const gqlGetSingleProject = (
             options: Omit<
-              WatchQueryOptions<GetSingleProjectQueryVariables>, 
+              WatchQueryOptions<GqlGetSingleProjectQueryVariables>, 
               "query"
             >
           ): Readable<
-            ApolloQueryResult<GetSingleProjectQuery> & {
+            ApolloQueryResult<GqlGetSingleProjectQuery> & {
               query: ObservableQuery<
-                GetSingleProjectQuery,
-                GetSingleProjectQueryVariables
+                GqlGetSingleProjectQuery,
+                GqlGetSingleProjectQueryVariables
               >;
             }
           > => {
             const q = client.watchQuery({
-              query: GetSingleProjectDoc,
+              query: GqlGetSingleProjectDoc,
               ...options,
             });
             var result = readable<
-              ApolloQueryResult<GetSingleProjectQuery> & {
+              ApolloQueryResult<GqlGetSingleProjectQuery> & {
                 query: ObservableQuery<
-                  GetSingleProjectQuery,
-                  GetSingleProjectQueryVariables
+                  GqlGetSingleProjectQuery,
+                  GqlGetSingleProjectQueryVariables
                 >;
               }
             >(
@@ -366,86 +416,133 @@ export const GetSingleProject = (
             return result;
           }
         
-export const CreateProject = (
+export const gqlGetProjectSecuritySettings = (
             options: Omit<
-              MutationOptions<any, CreateProjectMutationVariables>, 
+              WatchQueryOptions<GqlGetProjectSecuritySettingsQueryVariables>, 
+              "query"
+            >
+          ): Readable<
+            ApolloQueryResult<GqlGetProjectSecuritySettingsQuery> & {
+              query: ObservableQuery<
+                GqlGetProjectSecuritySettingsQuery,
+                GqlGetProjectSecuritySettingsQueryVariables
+              >;
+            }
+          > => {
+            const q = client.watchQuery({
+              query: GqlGetProjectSecuritySettingsDoc,
+              ...options,
+            });
+            var result = readable<
+              ApolloQueryResult<GqlGetProjectSecuritySettingsQuery> & {
+                query: ObservableQuery<
+                  GqlGetProjectSecuritySettingsQuery,
+                  GqlGetProjectSecuritySettingsQueryVariables
+                >;
+              }
+            >(
+              { data: {} as any, loading: true, error: undefined, networkStatus: 1, query: q },
+              (set) => {
+                q.subscribe((v: any) => {
+                  set({ ...v, query: q });
+                });
+              }
+            );
+            return result;
+          }
+        
+export const gqlUpdateProjectSecuritySettings = (
+            options: Omit<
+              MutationOptions<any, GqlUpdateProjectSecuritySettingsMutationVariables>, 
               "mutation"
             >
           ) => {
-            const m = client.mutate<CreateProjectMutation, CreateProjectMutationVariables>({
-              mutation: CreateProjectDoc,
+            const m = client.mutate<GqlUpdateProjectSecuritySettingsMutation, GqlUpdateProjectSecuritySettingsMutationVariables>({
+              mutation: GqlUpdateProjectSecuritySettingsDoc,
               ...options,
             });
             return m;
           }
-export const ArchiveProject = (
+export const gqlCreateProject = (
             options: Omit<
-              MutationOptions<any, ArchiveProjectMutationVariables>, 
+              MutationOptions<any, GqlCreateProjectMutationVariables>, 
               "mutation"
             >
           ) => {
-            const m = client.mutate<ArchiveProjectMutation, ArchiveProjectMutationVariables>({
-              mutation: ArchiveProjectDoc,
+            const m = client.mutate<GqlCreateProjectMutation, GqlCreateProjectMutationVariables>({
+              mutation: GqlCreateProjectDoc,
               ...options,
             });
             return m;
           }
-export const DeleteProject = (
+export const gqlArchiveProject = (
             options: Omit<
-              MutationOptions<any, DeleteProjectMutationVariables>, 
+              MutationOptions<any, GqlArchiveProjectMutationVariables>, 
               "mutation"
             >
           ) => {
-            const m = client.mutate<DeleteProjectMutation, DeleteProjectMutationVariables>({
-              mutation: DeleteProjectDoc,
+            const m = client.mutate<GqlArchiveProjectMutation, GqlArchiveProjectMutationVariables>({
+              mutation: GqlArchiveProjectDoc,
               ...options,
             });
             return m;
           }
-export const DeleteApp = (
+export const gqlDeleteProject = (
             options: Omit<
-              MutationOptions<any, DeleteAppMutationVariables>, 
+              MutationOptions<any, GqlDeleteProjectMutationVariables>, 
               "mutation"
             >
           ) => {
-            const m = client.mutate<DeleteAppMutation, DeleteAppMutationVariables>({
-              mutation: DeleteAppDoc,
+            const m = client.mutate<GqlDeleteProjectMutation, GqlDeleteProjectMutationVariables>({
+              mutation: GqlDeleteProjectDoc,
               ...options,
             });
             return m;
           }
-export const UpdateGeneralProjectInfo = (
+export const gqlDeleteApp = (
             options: Omit<
-              MutationOptions<any, UpdateGeneralProjectInfoMutationVariables>, 
+              MutationOptions<any, GqlDeleteAppMutationVariables>, 
               "mutation"
             >
           ) => {
-            const m = client.mutate<UpdateGeneralProjectInfoMutation, UpdateGeneralProjectInfoMutationVariables>({
-              mutation: UpdateGeneralProjectInfoDoc,
+            const m = client.mutate<GqlDeleteAppMutation, GqlDeleteAppMutationVariables>({
+              mutation: GqlDeleteAppDoc,
               ...options,
             });
             return m;
           }
-export const UpdateProjectAvatar = (
+export const gqlUpdateGeneralProjectInfo = (
             options: Omit<
-              MutationOptions<any, UpdateProjectAvatarMutationVariables>, 
+              MutationOptions<any, GqlUpdateGeneralProjectInfoMutationVariables>, 
               "mutation"
             >
           ) => {
-            const m = client.mutate<UpdateProjectAvatarMutation, UpdateProjectAvatarMutationVariables>({
-              mutation: UpdateProjectAvatarDoc,
+            const m = client.mutate<GqlUpdateGeneralProjectInfoMutation, GqlUpdateGeneralProjectInfoMutationVariables>({
+              mutation: GqlUpdateGeneralProjectInfoDoc,
               ...options,
             });
             return m;
           }
-export const ResetProjectAvatar = (
+export const gqlUpdateProjectAvatar = (
             options: Omit<
-              MutationOptions<any, ResetProjectAvatarMutationVariables>, 
+              MutationOptions<any, GqlUpdateProjectAvatarMutationVariables>, 
               "mutation"
             >
           ) => {
-            const m = client.mutate<ResetProjectAvatarMutation, ResetProjectAvatarMutationVariables>({
-              mutation: ResetProjectAvatarDoc,
+            const m = client.mutate<GqlUpdateProjectAvatarMutation, GqlUpdateProjectAvatarMutationVariables>({
+              mutation: GqlUpdateProjectAvatarDoc,
+              ...options,
+            });
+            return m;
+          }
+export const gqlResetProjectAvatar = (
+            options: Omit<
+              MutationOptions<any, GqlResetProjectAvatarMutationVariables>, 
+              "mutation"
+            >
+          ) => {
+            const m = client.mutate<GqlResetProjectAvatarMutation, GqlResetProjectAvatarMutationVariables>({
+              mutation: GqlResetProjectAvatarDoc,
               ...options,
             });
             return m;

@@ -26,6 +26,25 @@ query gqlGetSingleProject($id: String!) {
   }
 }
 
+query gqlGetProjectSecuritySettings($id: String!) {
+  project(id: $id) {
+    strictMode
+    recoveryEmail
+    pin
+  }
+}
+
+mutation gqlUpdateProjectSecuritySettings($id: String!, $strictMode: Boolean!, $recoveryEmail: String, $pin: Float) {
+  updateProjectSecuritySettings(
+    id: $id
+    strictMode: $strictMode
+    recoveryEmail: $recoveryEmail
+    pin: $pin
+  ) {
+    name
+  }
+}
+
 mutation gqlCreateProject($name: String!) {
   createProject(name: $name) {
     name

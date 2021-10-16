@@ -1,3 +1,5 @@
+<!-- TODO: Fetch repo data from external server -->
+
 <div class="max-w-3xl mx-auto py-10 px-4 sm:px-6 lg:py-12 lg:px-8">
   <h1 class="text-3xl font-extrabold text-gray-900">Additional Resources</h1>
 
@@ -36,7 +38,7 @@
                 <p class="text-sm text-gray-500">Contribute on <a href="https://github.com/lovetodream/wolf-webapp" class="font-medium text-gray-900">Github</a></p>
               </div>
               <div class="text-right text-sm whitespace-nowrap text-gray-500">
-                <time datetime="2020-09-30">1 contributor</time>
+                <time datetime="2020-09-30">unknown contributors</time>
               </div>
             </div>
           </div>
@@ -53,10 +55,10 @@
             </div>
             <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
               <div>
-                <p class="text-sm text-gray-500">Donate to the projects creator <a href="." class="font-medium text-gray-900">Timo Zacherl</a></p>
+                <p class="text-sm text-gray-500">Donate to the projects creator <a href="https://github.com/sponsors/lovetodream" class="font-medium text-gray-900">Timo Zacherl</a></p>
               </div>
               <div class="text-right text-sm whitespace-nowrap text-gray-500">
-                <time datetime="2020-09-30">0.00 $ per month</time>
+                <time datetime="2020-09-30">unknown $ per month</time>
               </div>
             </div>
           </div>
@@ -73,10 +75,10 @@
             </div>
             <div class="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
               <div>
-                <p class="text-sm text-gray-500">Report an <a href="https://github.com/lovetodream/wolf-backend/issues/new?assignees=&labels=&template=bug_report.md&title=" class="font-medium text-gray-900">Issue</a></p>
+                <p class="text-sm text-gray-500">Open an <a href="https://github.com/lovetodream/wolf-backend/issues/new?assignees=&labels=&template=bug_report.md&title=" class="font-medium text-gray-900">Issue</a></p>
               </div>
               <div class="text-right text-sm whitespace-nowrap text-gray-500">
-                <time datetime="2020-09-30">9 open</time>
+                <time datetime="2020-09-30">unknown open</time>
               </div>
             </div>
           </div>
@@ -96,7 +98,7 @@
                 <p class="text-sm text-gray-500">Request a <a href="https://github.com/lovetodream/wolf-backend/issues/new?assignees=&labels=&template=feature_request.md&title=" class="font-medium text-gray-900">Feature</a></p>
               </div>
               <div class="text-right text-sm whitespace-nowrap text-gray-500">
-                <time datetime="2020-09-30">1 open</time>
+                <time datetime="2020-09-30">unknown open</time>
               </div>
             </div>
           </div>

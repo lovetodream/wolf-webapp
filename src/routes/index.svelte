@@ -1,20 +1,20 @@
 <script lang="ts">
 import { fade } from 'svelte/transition'
 import { formula } from 'svelte-formula'
-import { CreateProject, GetProjects, GetProjectsDoc } from '@/generated/graphql'
+import { gqlCreateProject, gqlGetProjects, GqlGetProjectsDoc } from '@/generated/graphql'
 import Modal, { getModal } from '@/components/Modal.svelte'
 
 const { form, isFormValid } = formula()
 
 export let newProjectName = ""
 
-$: query = GetProjects({})
+$: query = gqlGetProjects({})
 
 const createProject = (_: Event) => {
   if (!isFormValid) {
     return
   }
-  CreateProject({ variables: { name: newProjectName }, refetchQueries: [{ query: GetProjectsDoc }] })
+  gqlCreateProject({ variables: { name: newProjectName }, refetchQueries: [{ query: GqlGetProjectsDoc }] })
   newProjectName = ""
   getModal().close()
 }
@@ -44,6 +44,7 @@ const createProject = (_: Event) => {
       </div>
     </div>
 
+    {#if ($query.data?.projects || []).length > 0}
     <div class="px-4 sm:px-6 md:px-8">
       <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
         {#each $query.data?.projects || [] as project (project._id)}
@@ -82,6 +83,7 @@ const createProject = (_: Event) => {
         </button>
       </div>
     </div>
+    {/if}
     
     {#if !$query.loading && ($query.data?.projects || []).length === 0}
       <div class="text-center" transition:fade>

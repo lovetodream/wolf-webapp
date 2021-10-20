@@ -8,7 +8,7 @@ import { addNotification } from '@/components/NotificationWrapper.svelte';
 import { formula } from 'svelte-formula';
 import { get } from 'svelte/store';
 
-const { form, formValues, validity } = formula()
+const { form, validity } = formula()
   
 let strictMode = false
 let recoveryEmail = ""
